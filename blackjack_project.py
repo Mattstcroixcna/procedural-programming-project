@@ -6,6 +6,8 @@ dealer_card_only = []
 player = []
 draw = 1
 
+
+
 def main():
     make_cards()
     print("Blackjack")
@@ -37,12 +39,15 @@ def game():
         elif player_points > 21:
             print("You busted!")
             break  # Exit the loop if the player busts
+    
 
 
     
 
 # this function opens and writes the money.txt file
 def bet():
+    global bet_amount
+    global cash
     with open('money.txt', 'r') as file:
         cash = int(file.read())
         print("money: ", cash)
@@ -54,6 +59,7 @@ def bet():
     with open('money.txt', 'r') as file:
         cash = int(file.read())
         print(cash)
+        return bet_amount
 
 def make_cards():
     suits = ['Hearts', 'Diamonds', 'CLubs', 'Spades']
@@ -88,6 +94,10 @@ def show_dealer_card():
 
 def show_player_cards():
     for card in player:
+        print(card['card'])
+
+def show_dealer_cards():
+    for card in dealer:
         print(card['card'])
 
 # checks player total
@@ -131,5 +141,15 @@ def handle_ace_choice(card):
     return 0  
 
 
+def win():
+    global cash
+    winings = int(bet_amount * 1.5)
+    cash = cash + winings
+    cash = str(cash)
+    print(cash)
+    with open('money.txt', 'w') as file:
+        file.write(cash)
+ 
 
-main()
+bet()
+win()
